@@ -85,7 +85,7 @@ wine_df = pd.read_csv(r'C:\Users\Tori\Documents\MAELecture\DataExplorationAIMode
 # head is a function of the object wine data frame and its going to print out a little summary of information 
 
 #Get an overview of the data 
-print(wine_df.head())
+#print(wine_df.head())
 
 # a couple of pitfalls when working with this IDE (VScode) in particular is make sure you saved your file before you run it 
 # or its going to run the last thing that saved and you might get weird behavior 
@@ -96,13 +96,36 @@ print(wine_df.head())
 # so it printed the first three and the last three columns 
 # index 0 wine has a fixed acidity of 7 a citric acid of .36 and a quality of 6 
 
+# As we are going through kind of the code file we are running this whole file everytime 
+# so its going to continue to print this head 
+# if we dont want it to print everytime we could comment it out 
+# if you use the number key or the hashtag or the pound symbol # thats the comment in python 
+# if this # is in front of a line its not going to execute this line the interpreter will completely skip it 
+# in vscode it puts it in this green color so you know it wont be executed 
+
+# Step 3: Print the Columns 
+# Another thing we can do is print the columns. A lot of times it nice to know all the columns you have available 
+# A couple different ways we can do this. 
+# The first way is just using the native columns property of this data set. we can print that out
+# Add comments so you know what your doing in the code 
+
 #Print the columns - method 1
 #print("Columns Index")
 #print(wine_df.columns)
+# so this is a property of the wine dataframe not a function of it (kinda interesting) so im not putting the parenthesis (). its not executing anything 
+# this is a stored property of this object in the underlying pandas library
+# save and run program: should see I have this columns index which is an object property of the dataframe and CDC index
+# the index is composed of a list of the columns here.
+# we can see it even prints out the datatype here which is an object. 
+# the columns object is a property of the dataframe object
+# can see all the other columns we have
+# this is nice for spot checking but the datatype that is more native to pandas is a list 
+# sometimes its more useful to work with columns as the python datatype was
 
+# second way we can do that: print the columns as a list
 #Print the columns - method 2
-#print("Columns as a List")
-#print(list(wine_df.columns))
+print("Columns as a List")
+print(list(wine_df.columns))
 
 #Describe the data 
 #print("Describe the data")
