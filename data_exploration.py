@@ -197,28 +197,94 @@ wine_df = pd.read_csv(r'C:\Users\Tori\Documents\MAELecture\DataExplorationAIMode
 # python cares a lot less about spamming your screen which is sometimes good and sometimes bad
 # you can see we have this entire almost 5000 values of just the quality as a list in the order they are presented in the data
 
-#
+# .loc the location property of the location indexer for the dataframe 
+# this allows you to select different rows and columns 
+# there are two ways to do this sort of selection using pandas 
+# one is loc and one is iloc
+# i standing for index 
+# the main difference between the two of them is if your using loc your going to select a column by its name and then the row by its index 
+# if your using iloc youre selecting both by their index 
+# you can also pass conditions into loc
+# if your passing both row and column indexes at the same time, you pass them in the order row column 
+# follow python slicing rules 
+# python slicing allows you take different ranges 
+# loc favors columns more 
+# iloc favors rows more 
+# if you pass two indexers into loc its going to be row column 
+# if you pass only the label its just going to index on column (which sometimes you want)
+# for iloc if you only pass it one number its going to assume thats the row
+# but they're always in the order row column for both 
+# annoying component of pandas is they follow python slicing rules 
+# loc if your slicing includes the start and end value in a slice 
+# iloc doesnt include the end value in a slice 
+
+# get everything in the quality column using python slicing rules and loc to do it
+# print wine dataframe (our dataframe object) dot loc and then use an open and close bracket 
+# first thing we are going to pass in is the rows 
+# want all the rows for one column 
+# so if we want everything we are going to pass in a colon : for a row
+# if you just see a colon that means include everything 
+# for normal slicing you would put numbers on either side of the colon 
+# if you dont do that it says include everything 
+# then a comma , thats for rows 
+# and then we are going to say quality for column because thats the only column we want 
+
 
 #loc 
 #Get everything in quality 
 #print("Entire quality column")
 #print(wine_df.loc[:,"quality"])
 
+# run program: entire quality column, got all the rows , its only printing the first and last five but only the quality value in those rows 
+# successfully filtered down to one column using loc
+
+
+
+
 #Get the first value in quality
 #print("First quality value")
 #print(wine_df.loc[0,"quality"])
 
+# next try to slice on the rows but still stay in the quality column 
+# should give us the first 6 values in there
+# what we are going to do is we are going to print , we are going to use wine dataframe loc 
+# and we are going to say give me index rows between 0 and 5. 
+# again this is the index number and its zero index so this should give us six rows 
+# and then we are going to say we only want the quality column 
 #print("First and up to 5th-indexed quality values")
 #print(wine_df.loc[0:5,"quality"])
 
+# other thing with slicing is if we don't pass it a number on the left it will get everthing up to and before that 
+
+#print("Everything up to 5th indexed row quality value")
+#print winedataframe loc. going to give it a colon and say 5 ; where 5 is the outer boundary for the row , give me everything before that 
+# and i still just want the quality value 
 #print("Everything before and up to the 5th-indexed quality values")
 #print(wine_df.loc[:5,"quality"])
+#same result as print(wine_df.loc[0:5, "quality"]) but we didnt have to specify the 0
 
+#get the quality value for the last couple
+#give it starting argument as 4890 and then we wont put anything after it 
+#we have 4898 total values but its zero index so the last index will be 4897 (the index is 1 less)
 #print("Everything after the 4890th-indexed quality value")
 #print(wine_df.loc[4890:,"quality"])
 
+# we can get both indexed now and we can pass it more than one column 
+# print the wine data frame dot loc. then we are going to say give me row 0 through 5 
+# and then on the column side i am now going to create a sublist (using []) so I can pass in more than one column 
+# so give me quality and sulphates 
 #print("First through 5th-indexed quality and sulphates values")
 #print(wine_df.loc[0:5,["quality", "sulphates"]])
+# can see it returns a smaller dataframe
+# has 0 1 2 3 4 5 rows and it gives me both the quality and the sulphate values for those 6 rows 
+
+#there are some cases where you specifically know what the index is of the rows you want to use or the columns 
+#but most of the time you know the column and you dont necessarly know the rows
+#your kind of filtering based on a condition
+# talk about iloc first but then really what you will probably be doing the most of is filtering the data/dataframe based on whether the values meet a certain condition 
+
+# iloc will exclude the last value we give it two
+# very similar to loc but now we cant pass in column names 
 
 #Use iloc 
 #print("Row indexes 1-2 and column indexes 1-4")
