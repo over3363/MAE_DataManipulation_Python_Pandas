@@ -45,12 +45,56 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import seaborn as sns 
 
+# ran didn't do anything nothing errored out so it imported the libraries 
+# if youre getting a module not found error make sure you virtual enviorment is activated 
+# so if you have a virtual enviorment and you named it something specific - if your using vs code you should see the virtual enviorment in () before you path
+# if you dont you might have used the wrong python/ python3 command becuase sometimes you have different installations of those
+# lots to troubleshoot 
+
+# Step 2: Load in CSV file
+# use the panadas library to do that because there isnt a great structured way to load an excel file in python without using a library like this 
+# function call we are going to be using is called read_csv()
+# we are going to load in a file and save it in a particular variable 
+# in pandas the structured object you normally work with with excel like data or any kind of tabular data they call it a dataframe 
+# for short you will often see dataframe abreviated as DF 
+
+# create a variable called wine_df
+# equal to the pd (which is the pandas library) . read_csv (is the function call) 
+# pass read_csv two arguments one is the name of the csv file we are going to be using (winequality-white.csv) 
+# putting the name in "" because its a string. names are usually strings. 
+# the other argument is the keyword argument 
+# pythons a little different than other languages in that you can have arguments that you just pass in in order like you would see in a c/cpp function but you can also have keyword arguments
+# keyword arguments are ususally optional. 
+# when they define the function they usually have a default for keyword arguments
+# For the read csv file their default separator because its a comma seperated value file is a comma 
+# in this case : this particular code file came in with a semicolon separator 
+# so we need to say override the default and use the separator as a semicolon 
+# entire line is a statement
 
 #Read the dataset into the "wine_df" variable
 #wine_df = pd.read_csv("winequality-white.csv", sep=";")
+wine_df = pd.read_csv(r'C:\Users\Tori\Documents\MAELecture\DataExplorationAIModelOverview\winequality-white.csv', sep=";")
+# PROBLEM: When Pandas throws a FileNotFoundError despite the CSV being in the same folder, it’s usually due to a mismatch between the current working directory and the file’s actual location.
+# FIX: Or use the absolute path directly: data = pd.read_csv(r'C:\path\to\your\folder\data.csv')
+
+# As we are going through and doing data manipulation good to spot check how we are doing
+# 1 test: once we have this read into this wine dataframe variable we can do is we can print out the head
+# the head gives us a little bit  of an overview of the data we just read in 
+# use the built in python function called print which will print it out to the console 
+# print this wine dataframe head 
+# head is a function of the object wine data frame and its going to print out a little summary of information 
 
 #Get an overview of the data 
-#print(wine_df.head())
+print(wine_df.head())
+
+# a couple of pitfalls when working with this IDE (VScode) in particular is make sure you saved your file before you run it 
+# or its going to run the last thing that saved and you might get weird behavior 
+# In VScode you can use ctrl s 
+# Run program: If I did it right got a little print out of the head. 
+# What it does: is it prints the first five rows of data. It prints six or so columns. 
+# It has the elipsies (...) in the middle because it has more columns than it can realistically fit in my output 
+# so it printed the first three and the last three columns 
+# index 0 wine has a fixed acidity of 7 a citric acid of .36 and a quality of 6 
 
 #Print the columns - method 1
 #print("Columns Index")
