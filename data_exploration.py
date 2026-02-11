@@ -124,13 +124,52 @@ wine_df = pd.read_csv(r'C:\Users\Tori\Documents\MAELecture\DataExplorationAIMode
 
 # second way we can do that: print the columns as a list
 #Print the columns - method 2
-print("Columns as a List")
-print(list(wine_df.columns))
+#print("Columns as a List")
+#print(list(wine_df.columns))
+# print list winedata frame columns 
+# list is another built in python function take the wine data frame column object and convert it into the python data frame or python data type list 
+# run this now: you see I got columns printed out as this list object
+# you call tell because of the open and closed brackets , all the elements of the list have quotes around them and they're seperated by a column 
+# that is a list in python
+
+# Troubleshooting: sometimes if your in the virtual enviorments sometimes you might have accidently installed the packages in the base or a different enviorment, so you might have to reinstall those
+
+#sometimes its also good to explore so basic data statistics based on the columns like the mean, the minimum and the max and the standard deviation of the values in there
+#another function on the pandas library we can use called describe which is really useful to do that
 
 #Describe the data 
 #print("Describe the data")
 #print(wine_df.describe())
+# run program: for each of the columns within the data it has printed out the count
+# count: the number of elements we have in each column 
+# mean
+# standard deviation std
+# min
+# percential values 
+# max 
+# can see the minimum quality is 3 , we know that we dont have any wines in our dataframe that have a score under 3 
+# maximum is 9 so even though theoretically we have a range of 0-10 on this particular dataframe we only have wines that are between 3 and 9
+# the standard deviation is about .8 to about 1 from the mean which is 5 
+# so most of our wines are going to be somewhere between like 4 and 6 or 5.5 and 5 
 
+
+#indexing the data 
+#one of the most useful things we can do in general with pandas is index it to get different subsets of data 
+#a lot of times when were looking at data what we are doing is filtering different views of the data to use for a specific task
+#there are a lot of ways to do this in pandas 
+#going over only a subset of ways to do this 
+
+# goal: try to get just one whole column of the dataframe  
+# command: quality_series ....
+# want just the quality aspect call it quality_series
+#because when you use this method it is going to return it as a series 
+# series is a slightly different datatype that a dataframe but very similar
+# say quality_series is equal to winedataframe and then we are going to use an open and close bracket
+# open and close bracket is pretty common used when indexing something in python 
+# then type quality 
+# what this does is it is taking just the quality column of the wine dataframe and its going to return it as a variable named quality_series.
+# print quality series : not going to print out the whole thing but our first five elements had a quality of six and our last five had six,five,six,seven,six
+# we have filtered it down to just the quality variable of the whole series 
 
 #Indexing 
 #Return a series with the 'quality' column of of the dataset
@@ -138,12 +177,27 @@ print(list(wine_df.columns))
 #print("Quality series")
 #print(quality_series)
 
+# can also pass it a list of multiple column names so if you want quality and you want sulfides you can get those two together
+# that would return not a series but a smaller dataframe 
+# only has the column names you passed in 
+
+# sometimes we get a series or an index or something and we want it as a list of values 
+# sometimes your reading in data and you only care about a certain column and you needed a list or different format
+# the way to do that with python is to use values to list 
 
 #Get a list of values from a column
 #quality_list = wine_df['quality'].values.tolist()
 #print("Quality List")
 #print(quality_list)
 
+#quality_list is a variable we are creating thats going to be equal to the winedataframe which were indexing with this quality 
+#and then we are going to say I want the values of that and we are going to convert them to a list 
+# they should return the values just as a list set up as an object
+# run program: see how its a python list
+# python cares a lot less about spamming your screen which is sometimes good and sometimes bad
+# you can see we have this entire almost 5000 values of just the quality as a list in the order they are presented in the data
+
+#
 
 #loc 
 #Get everything in quality 
