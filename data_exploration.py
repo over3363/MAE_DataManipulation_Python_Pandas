@@ -285,38 +285,193 @@ wine_df = pd.read_csv(r'C:\Users\Tori\Documents\MAELecture\DataExplorationAIMode
 
 # iloc will exclude the last value we give it two
 # very similar to loc but now we cant pass in column names 
+# we can only pass in indexes to both the rows and the columns 
+# and when we are slicing they are going to exclude the end value 
 
+# print row indexes 1 and 2 and column indexes 1 through 4
+# if we want these rows and columns wee are going to have to add a number to our index
+# slice 1:3 for the rows, slice 1:5 for the columns 
 #Use iloc 
 #print("Row indexes 1-2 and column indexes 1-4")
 #print(wine_df.iloc[1:3, 1:5])
 
+# we dont have to pass it slices either.
+# we could just pass it values 
+# we dont have to worry about excluding anything because we are not slicing 
+# we are only passing it one number 
+# give it the 4th index row which is actually the 5th row , first column 
+# it will give us back that exact value 
 #print("4th row index, first item")
 #print(wine_df.iloc[4, 0])
 
+#when to use iloc vs loc 
+#use loc when indexing based on column name 
+#there will be situations in whihc you will want to use on or the other 
+# sometimes the column name gets messed up and then you will want to use iloc because its easier to index it than get the name 
+# sometimes your iterating then you would use iloc
+# for pandas they tried to design it so your not iterating a whole lot but sometimes you are  
+
+# like with slicing you can pass in just a colon as code for everything 
+# row index 4 will actually be row 5 and all columns  
+# we can double check the ouptut with our dataframe 
+# its the entire row essentially
 #print("All columns, row index 4")
 #print(wine_df.iloc[4, :])
 
-
-
+#tend to do this using loc becasue the names are more readable
+#a little weird becasue of instead passing in specific column names or something like that that meet the condition you actually pass the dataframe back to the dataframe 
+# locgically way to do this would be to say quality greater than 5 
+# but actually what you do is you say grab the wine dataframe and the quality column of it and then grab the values where that is above 5
+# passing in the dataframe twice, just be aware that is the convention to use that 
+# has to do with how they are storing the object - pandas always makes copies and whatnot
+# thinks there are some function calls you can use where you dont have to pass the whole data frame 
+# you could just say the column for very specific conditions 
 #Selecting a row based on a condition 
 #print("All rows where quality is above 5")
 #print(wine_df.loc[wine_df["quality"] > 5])
+#run program: only going to print out the ones the meet this condition 
+#can see here all of them are above 5
+#if we want to double check we can swap 5 for something else 6 - if it gets reprinted we shouldnt see anything with a 6
+#print(wine_df.loc[wine_df["quality"] > 6])
+# now everything in our dataframe has a quality above 6
+
+# what do you notice about the rows? 
+# answer: its printing five rows and the last five rows of this new dataframe we have made
+# its printing the index so its keeping the original index 
+# thats not always an issue when your slicing a data frame 
+# but sometimes you want to make a new dataframe based on some condition you have 
+# like your going to exclude certain data  
+# then you just want to start fresh with the dataframe made only of your clean data 
+# keep in mind if you do that your going to have to reset the index to only include those rows
+
+# can also check how many rows that leaves us 
+# We might want to know how many in the overall dataset actually have a score of around 5?
+# the index is how they are identifying indivudal rows in your dataframe 
+# so if you take the length of your overall index itll give you a count of how many rows are in this subset
+
+#how many rows have a quality score above 5
+# going to print the length (len) of the same sort of filter we used before (wine_df.loc[wine_df["quality"] > 5])
+# say dot index 
+# so wine_df.loc[wine_df["quality"] > 5] returned a different dataframe object 
+# that new dataframe object has a property called index which gives you the index of all the rows 
+# they are now not going to be zero index because its a new slice 
+# dont care about the individual row index , all i want to know is how many total rows there are 
+# getting that with this length function we are using
 #How many rows is this?
 #print("How many rows is this?")
 #print(len(wine_df.loc[wine_df["quality"] > 5].index))
+# program run: this will give me out a number and that will be the number that meets the condition 
+# we can see there are nearly 3258 of the 5000 wines that have the quality of about 5
+# if we change the 5 to 6 , we should probably see less (1060 wines meet criteria)
+# you could also make a better histogram or something like that 
+# there are better visualizations than tabbing through them indivisually on each number
+# goal describe how you filter things
+
+#other thing you can do is to use logic operators to get filters of your data as well
+# you can use logical and &
+# you can use logical or |
+# can combine the conditions into different expressions 
+# when you have subconditions what your going to be using (if your using and or) your going to have to those in parenthese ()
+# or pandas really doesnt like it 
+
+
+#we have been printing out these slices of dataframes that are kind of long 
+#its going to be more useful (especially as we are going) is to take that slice of the dataframe and store it in a subvariable
+#subvariable that is a little easier to access than typing out the expression everytime
+#create a new dataframe and call it sub_df
+# sub_df is equal to the wine dataframe then i say locate (loc) where 
+# and then i am going to have an and condition so I am going to have a set of parenthese () the logical operator and & and another set of parentheses ()
+# since we are using an and operator it has to meet both of these conditions to be returned into the new dataframe
+# winedataframe quality is greater than 5 and suphates are greater than 0.45
+# now we can print and get head on this dataframe
+# which is now a lot easier than having to access the whole long condition becuase we stored it in a sub variable.
+# can also check how many rows is this
+# we can print out the length of the subdataframes index 
 
 #print("All rows where quality is above 5 and sulphates are above 0.45")
-#sub_df = wine_df.loc[(wine_df["quality"] > 5) & (wine_df["sulphates"] < 0.45)]
+#sub_df = wine_df.loc[(wine_df["quality"] > 5) & (wine_df["sulphates"] > 0.45)]
 #print(sub_df.head())
 #print("How many rows is this?")
 #print(len(sub_df.index))
 
+# that was the and operator so they have to amke both
+# if we use the or operator instead : are we going to have more or less? MORE
+# sub_df = wine_df.loc[(wine_df["quality"] > 5) | (wine_df["sulphates"] > 0.45)]
+# so now we can see we have to have the wines either be above 5 in quality or be above .45 in sulphates
+# we see around 4200 at that condition , almost all of them did
 
+#filtering this data and storing it in these new variables 
+# a lot of times were only going to be interested in , a lot of times were using data we ourselves didnt collect 
+# so there is stuff in the dataset we dont want to use or doesnt meet a condition that the experiment were trying to run 
+# so filtering the data is very useful in order to meet those criteria 
+# selecting rows based on a condition is very common 
+# another thing that is very common in processing is taking out missing data or trying to find data that was completely filled in 
+
+# handling missing data and how to drop data 
+# null data 
+# pandas is the majority of this library for this code file
+# in pandas if a column or row is missing part of the data its going to go in a a Nan value
+# Nan stands for not a number
+# depending on the language your working with sosmetimes this comes in as null or none or something else
+
+# First thing want to do : is find and see if we have any missing values in the dataframe 
+# we are going to use this is NA property of the dataframe 
+# that will return a dataframe were the values are replaced by true or false to indicate whether or not the value is not a number or not 
+# if it is true it will indicate that there is not a number of value in there , false otherwise 
+# there are other ways to look at this : but this is one way 
+# print wine_df the object we created for the pandas library this dataframe type object named wine_df
+# and then going to call isna property on it 
 #Find and Handle NaNs 
 #We don't have an NaN values
 #print(wine_df.isna())
 #print(wine_df.isna().value_counts())
+# run this, you can see we have this giant new dataframe and all the values are replaced with true or false. 
+#true would indicate that the particular position has a Nan value 
+# so far see all of them are false but its not printing the whole dataframe 
+# so lets actually get a value count by the column 
+# take function of isna() and another kind of strange thing you can do in Python is you can chain on subfunctions to the end
+# this isna property of wine_df (wine dataframe) when you call the function on this, wine_df.isna() becomes a new dataframe 
+# and so this new dataframe has some functions you can call on it 
+# so we can chain it just by adding another period  there
+# take this dataframe and call this value count funciton on it 
+# printing part of it is irritating because the terminal is not very large but you could kind of step through each column and print 
+# basically you can see for the all the columns we have here , all of them have false values equal to 4898
+# not a single on of them has a true value 
+# so we can say confidently there is no missing data in this dataframe 
 
+# could use that as a filter to another dataframe (returns a dataframe of true false values)
+# could say these have the same indexes give me the original values where the filter dataframes is only false or only true
+# there are other ways to do it , other than filtering on a dataframe label
+# you can use that object however you want (should be smart enough to understand...)
+# demonstrate 
+#boolean_df= wine_df.isna()
+#print(boolean_df.head())
+# wine_df.isna() created a new dataframe that we have now saved in this variable called boolean_df
+# this boolean_df no longer contains the values all it contains is whether or not a value at that position 
+# and the original one was true or false
+# basically creates a mask or filter dataframe 
+# you could use that to remove a Nan dataframes but we are going to use a different function 
+
+#realistically your not going to get super nice curated data like this 
+# insert a nan value into this dataframe and try to take care of it after that
+# first thing we are going to do is checck a random value and put a non number value in it 
+# print wine dataframe location very first row index 0 [0] , and I want to grab the quality value  
+# print out for now to verify that there is a number there, and yes it printed 6 so thats the value in there 
+# next thing to do is create a copy so im not messing with my original dataframe 
+# by default most of the time pandas makes a completely new copy of the dataframe to assign to the variable 
+# a lot of times the pitfalls you run into with python is if you worked with other programing languages sometimes you copy something by reference and sometimes you copy things by value 
+# if you copy it by reference you end up creating two references to one singular object
+# and if you update one you tend to update the other 
+# and if you thought they were seperate objects that will get you in trouble  
+# with pandas by default it is going to make a new copy so you dont have to specify make a new copy or copy it by value its already doing that
+# handy for not accidently changing something you didnt mean to change
+# not so handy for memory or time management so it will take longer 
+# new dataframe new_df is equal to wine_df wine dataframe this is going to create a copy 
+# we dont have to specify copy or anything 
+# now we are going to say this new dataframe locate position of row 0 quality score and assign that to none 
+# pandas can understand Nan values , python really doesnt it uses none instead.
+# when we run program and print it out we should see a nan value there 
+# originally location 0 quality column was 6 , we created a copy of the new dataframe and then we assign that specific position to none , and so pandas now says thats a non number value there thats a null reference
 
 #Insert an NaN value
 #print(wine_df.loc[0, 'quality'])
@@ -324,27 +479,197 @@ wine_df = pd.read_csv(r'C:\Users\Tori\Documents\MAELecture\DataExplorationAIMode
 #new_df.loc[0, 'quality'] = None
 #print(new_df.loc[0, 'quality'])
 
+# how you want to deal with not number values nan will definetly vary by what you are doing
+# sometimes you will want to fill them 
+# sometimes you want to just drop them completely 
+
+# in the case of dropping it, it will remove the entire row if any of its columns have a nan in it
+# sometimes you dont want to that , especially when we get to the time series data part 
+# sometimes you actually fill that , you take okay it was this number right before the missing number , it was this number right after so we are going to average it, or we are going to fill it with the last known value (if its like a set point or something)
+# since these are all instances of kind of the same or completely independent wine just dropping any incomplete data makes sense for this use case
+# First thing want to do: put some checks for ourselves : number of rows before dropping nan using print length of this new dataframes index
+#index is the rows that are in the dataframe , the index number of the rows 
+# do length of that index on dataframe will tell us the total number of rows in the dataframe 
+# then we are going to create the cleaned dataframe , cleaned dataframe is equal to its new dataframe and then we are going to call this drop na function on it 
+# that will completely get rid of those
 #Drop the na value 
 #print("Number of rows before dropping NaN")
 #print(len(new_df.index))
 #cleaned_df = new_df.dropna()
+# reset index
+#to reset index first way
+#cleaned_df = cleaned_df.reset_index()
+#cleaned_df.reset_index(inplace=True)
+#before resetting index example
+#print(cleaned_df.head())
+#print("number of rows after dropping NaN")
+#print(len(cleaned_df.index))
+# before resetting index example
+#print(cleaned_df.loc[0, "quality"])
+
+# before dropping it we had 4898 and after we dropped it we had 4897 
+# will say this is where I want to get into this index behavior 
+# if we print, right after we drop this NaN value , cleaned dataframe head:
+# print(cleaned_df.head()) 
+# remember the head prints out the first 5 rows 
+# in this case its printing out row 1, 2,3, 4, 5: what are we missing: zero row which is great we dropped that but that got rid of that index completely
+# if I use: #print(cleaned_df.loc[0, "quality"]) after dropping nan should get an error because that index no longer exists
+# because after dropping this row it didnt reset the index 
+# sometimes thats useful if your taking subsets of the dataframes and you want indexes to be the same as the original becuase your doing some weird filtering thing or you want to page through specific indexes. thats good behavior 
+# however if you want zero to always refer to the first row or if your iterating through based on index number in a loop this can be really annoying because zero is supposed to be the frist index no matter what, now we got rid of it
+# good thing is its pretty easy to reset the index 
+# so after we drop not a number value 
+# we are going to go ahead reset the index 
+
+# two ways to reset the index 
+# we can take this cleaned data frame variable and say it is equal to the cleaned dataframe variable dot reset index 
+# again almost everying in pandas creates a copy so this creates a new dataframe
+# cleaned_df = cleaned_df.reset_index()
+# if you just call reset index value its not going to make changes, fundamental changes to this clean dataframe 
+# its returning a value 
+# you have to reassign it back to the value (common problem forgetting)
+# run program: no error the zero index was a valid option 
+# if you dont want to reassign it to back to the variable theres one more thing you can do 
+# you can say clean_df.reset_index() and then pass it this argumnet called inpace 
+#clean_df.reset_index(inplace = True) by defualt its false cause it makes a copy 
+# but if you dont want to reassign it back to the variable its totally a matter of your preference 
+# havent looked into the runtime implications of either method but they should do exactly the same thing 
+# run program: now you can see we have one less row but our index 0 is valid 
+# reset index renumbers the indexes back to the order they are now in 0-4 in this case
+# got the zero index back again because it basically shifted them all 1 
+# if we had multiple out there it would have renumbered them completely just the number of rows 
+# so we will have 0 through 4896 as our total index (because we now have 4897 rows)
+
+#common mistake to make: if your having wierd behavior on indexes one thing I would check to make sure you either reset it in place or reassigned it back to the variable you were using 
+
 #Reset the index - in place this time 
 #cleaned_df.reset_index(inplace=True)
 #print("Number of rows after dropping NaN")
 #print(len(cleaned_df.index))
 #print(cleaned_df.loc[0, "quality"])
 
+# make sure matplotlib and seaborn is imported 
+# standard convention is to put it at the top so all your packages are there and you dont have weird import errors as your running the script 
+# python in a lot of cases will let you import it somewhere else in the script though 
 
-
+# correlation heatmap
+# pretty useful to see what variables might be correlated to others
+# going to use seaborn and the corr() correlation function on the data frame to create one 
+# print out the correlation wine_df.corr()
+# this will create a correlaiton matrix with how strongly each variable is correlated to the others
+# run the program: will get rid of the middle stuff (...) so that is kind of annoying, if you were to actually printing this out to look at the raw data make sure you have your print settings set differently
+#can see fixed acidity and fixed acidity are perfectly correlated to each other thats good - same value should be 
+# what we really want to know probably is whats correlatd with quality 
+# fixed acidity has a very small negative correlation with quality 
+# if we go to alchol we see we have a not super srong but probably relevant correlation with quality 
+# putting the correlation might be nicer to see it as a plot 
+# plot is equal to seaborn library using the alias we imported it with , and we are going to go heatmap and then 
+# we are going to pass it this wine dataframe correlation matrix 
+# better coding practice would probably be to say assign this correlation matrix to a variable called coorelation or something and then pass that in 
+# then if we go plt , so we are going to use the gui functions in matplotlib and we are going to say plt.show() and then under plt.clf (clear)
+# show will show the model we created clf will clear the figure for the next one so its not overlapping on itself 
 #Visualize 
 #Correlation
 #print(wine_df.corr())
 #plot = sns.heatmap(wine_df.corr()) 
 #plt.show()
+#plt.savefig("correlation_plot.png") 
+# I legit dont know where this saved at lol 
+# after searching it was saved at this path : /Tori
 #plt.clf()
+
+#there is a lot you can do with graphing functions 
+#how to add a plot title and whatnot (check documentation)
+# this is the heatmap 
+# the much lighter colors have a very strong positive correlaiton 
+# see on the diagonal of this matrix here evidence 
+
+# if your not getting your graph to pop up it has to do with your enviorment (sometimes specific virtual enviorments)
+# gal with error bigger canvas ag or user warning . bigger canvas ag is not interactive and thus cannot be shown
+# work around 
+# this works with marys graphical interface to pop it up: instead of show we can save it as a png using command plt.savefig("correlation_plot.png")
+# plt.savefig("name.png")
+# that should create this file in my enviorment 
+# depending on your enviorment it might have saved it really small 
+# again there are settings you can mess with to actually get out a resolution (worked for mary's)
+# matplotlib can be a little gui specific 
+# virtual enviorment probably has a way to interact but it something that would need to be a setting that you would have to looked up
+# at least most of them do
+# anaconda I know in partiuclar and matplotlib are not always friends 
+
+# on the diagonal we can see we have perfect correlation 
+# various colors give various levels of positive or ngative correlation 
+# we can see that alchol and density are somewhat negatively correlated 
+# quality is what we really want to knwo here so 
+# we can see quality and quality are perfectly correlated with each other  as they should be 
+# and then we can see alchol as maybe the most positive correlation of any other variable with quality 
+# we can see density has a slight negative 
+# overall there is not a whole lot of strong correlation of any of these individual values or the quality 
+# becauee its a wine dataset its probably not super scientific 
+# you can also press s if you have the interactive gui to save the figure that way 
+# or you can click the little save icon 
+# clear figure because matplotlib kinda layers the figures on top of each other 
+# so if you dont use that you might have two plots trying to interact with each other or on top of each other 
+# you might get some weird results (it depends)
+# correlation plot can be really useful to investigate things that might have some relations 
+# then you can kind of dig deeper and create these plots that let you see it more granularly 
+
+# scatter plot creation 
+# now we are using matplotlib primarially 
+# use plt to call that library and we are going to say scatter and we are going to give it the wine dataframe 
+# quality score and the wine dataframe alchol score 
+# again you might have to use save fig 
 
 #Scatter
+dependent_var = "quality"
+independent_var = "alcohol"
+plt.scatter(wine_df[independent_var], wine_df[dependent_var])
+#plt.scatter(wine_df["alcohol"], wine_df["quality"])
 #plt.scatter(wine_df["quality"], wine_df["alcohol"])
-#plt.show()
-#plt.clf()
+#plt.title("Correlation Between Quality and Alcohol")
+plt.title(f"Correlation Between {independent_var} and {dependent_var}")
+plt.xlabel(independent_var)
+plt.ylabel(dependent_var)
+plt.show()
+plt.clf()
 
+# run program: can see its kind of a correlation between quality and alchol but its not the best looking one in the world 
+# clear doesnt matter where you call it so long as its sometimes before you display the next graphs if you have a pervious one 
+# add a title plt title pass it a string 
+# maybe i would rather have this between alchol and quality because quality is my actual dependent variable 
+# so I can alway switch those around 
+# plt.scatter(wine_df["alcohol"], wine_df["quality"])
+# should get a new plot that has alchol on the x axis and quality for the y axis 
+
+# coding practice wise: often you are going to be running through a lot of these 
+# so id maybe recommend saving these as varaiables 
+# dependent_var...
+# nice thing you can do in python are called f strings 
+# take the string as my plot title and put an f in front of it . I can now put brackets inside the string with variable names 
+# and it will replace that with the variable value 
+
+# run this can see we got this plot got a correlation between alchol and quality 
+# wnat to label axises to xlabel, ylabel
+# now if you wanted to investigate something else you could just replace alchol with say density
+# independent_var = "density"
+# should update the whole rest of the plot if I run it again 
+#if you were doing a scatter plot and it had perfect correlation it would look it would be the x = y graph 
+# scatter plot takes every instance in your dataset and for the x axis it plots the corresponding y 
+# so this is all the wines in the dataset represented each as a dot 
+# and then if you look at general trends you can sort of maybe assume so correlations 
+# but the corelation plot gives you the actual numerical value
+# look at quality and quality they have perfect correlation should see an x equal y graph 
+
+# wine dataset
+# use this datset because its fairely easy to mess with and understand and probably wont fry your potato of a computer 
+# its really not the best dataset to start with on any kind of statistical or mathmatical basis because its pretty subjective 
+# theres not a lot of great strong correlations in it 
+
+# keyboard command to comment an entire area: linux computer 
+# if you highly the whole area and I go ctrl+k+c it will comment the whole thing as a block
+# ctrl+k+u it will uncomment 
+# there is a way in VScode to look at all the keyboard shortcuts 
+# your editor might have different ones if your not using VScode 
+# someones says ctrl ? is the same so idk
+
+# basics of looking at data in python 
